@@ -49,7 +49,7 @@ func run(ctx context.Context) error {
 	}
 
 	if len(errs) > 0 {
-		return fmt.Errorf("исполнение graceful shutdown: %w", errors.Join(errs...))
+		return fmt.Errorf("исполнение gracefull shutdown: %w", errors.Join(errs...))
 	}
 
 	log.Debug().Msg("Остановка приложения завершена успешно")

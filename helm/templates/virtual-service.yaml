@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: my-app-virtualservice
+spec:
+  gateways:
+  - my-gateway
+  hosts:
+  - "*"
+  http:
+  - route:
+    - destination:
+        host: my-app-service
+        port:
+          number: 8080
+#   - match:
+#     - uri:
+#         exact: /
+#       method:
+#         notExact: GET
+#     redirect:
+#       authority: ""
+#       statusCode: 404
