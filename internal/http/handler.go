@@ -63,7 +63,7 @@ func newHandler(cfg *HandlerConfig) (*Handler, error) {
 		return nil, fmt.Errorf("создание директории для логов: %w", err)
 	}
 
-	logFile, err := os.OpenFile(cfg.LogDir+cfg.LogFilename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	logFile, err := os.OpenFile(cfg.LogDir+cfg.LogFilename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
 		return nil, fmt.Errorf("открытие лог-файла: %w", err)
 	}
@@ -121,7 +121,7 @@ func (h *Handler) WriteLog(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func (h *Handler) GetLog(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetLogs(w http.ResponseWriter, r *http.Request) {
 	fileBytes, err := h.getFileContent()
 	if err != nil {
 		log.Error().Msgf("Получение содержимого лог-файла: %s", err)
@@ -131,7 +131,7 @@ func (h *Handler) GetLog(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if _, err = fmt.Fprint(w, fileBytes); err != nil {
+	if _, err = fmt.Fprint(w, string(fileBytes)); err != nil {
 		log.Error().Msgf("Ошибка записи содержимого файла в качестве тела ответа: %s", err)
 
 		w.WriteHeader(http.StatusInternalServerError)

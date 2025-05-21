@@ -93,7 +93,7 @@ func newRouter(handler *Handler) *chi.Mux {
 
 	router.Get("/", handler.SayHello)
 	router.Get("/status", handler.Status)
-	router.Get("/logs", handler.GetLog)
+	router.Get("/logs", handler.GetLogs)
 	router.Post("/log", handler.WriteLog)
 
 	return router
