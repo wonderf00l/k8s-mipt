@@ -39,7 +39,7 @@ type (
 
 func (hc *HandlerConfig) SetDefaults() {
 	const (
-		defaultLogDir      = "app/logs/"
+		defaultLogDir      = "logs/"
 		defaultLogFilename = "app.log"
 
 		defaultHelloMsg = "Welcome to the custom app"

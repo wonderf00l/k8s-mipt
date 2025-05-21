@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  app.yaml: |
+    logging:
+      level: info
+    http:
+      srvPort: 8080
+      handler:
+        helloMsg: Welcome to the custom app
+        logDir: logs/
+        logFilename: app.log

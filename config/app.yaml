@@ -2,7 +2,7 @@ http:
   srvPort: 8080
   handler:
     helloMsg: Welcome to the custom app
-    logDir: ./app/logs/ # Permission denied for /
+    logDir: logs/
     logFilename: app.log
 logging:
   level: debug
