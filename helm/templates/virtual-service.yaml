@@ -8,16 +8,54 @@ spec:
   hosts:
   - "*"
   http:
-  - route:
+  - match:
+    - uri:
+        exact: /status
+      method:
+        exact: GET
+    route:
     - destination:
         host: my-app-service
         port:
-          number: 8080
-#   - match:
-#     - uri:
-#         exact: /
-#       method:
-#         notExact: GET
-#     redirect:
-#       authority: ""
-#       statusCode: 404
+          number: 80
+  - match:
+    - uri:
+        exact: /logs
+      method:
+        exact: GET
+    route:
+    - destination:
+        host: my-app-service
+        port:
+          number: 80
+  - match:
+    - uri:
+        exact: /log
+      method:
+        exact: POST
+    route:
+    - destination:
+        host: my-app-service
+        port:
+          number: 80
+  - match:
+    - uri:
+        exact: /
+      method:
+        exact: GET
+    route:
+    - destination:
+        host: my-app-service
+        port:
+          number: 80
+
+  - fault:
+      abort:
+        httpStatus: 404
+        percentage:
+          value: 100
+    route:    
+    - destination:
+        host: my-app-service
+        port:
+          number: 80
