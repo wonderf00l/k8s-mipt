@@ -33,6 +33,15 @@ spec:
         exact: /log
       method:
         exact: POST
+    fault:
+      delay:
+        fixedDelay: 2s
+        percentage:
+          value: 100
+    retries:
+      attempts: 2
+      perTryTimeout: 1s
+      retryOn: deadline-exceeded
     route:
     - destination:
         host: my-app-service
