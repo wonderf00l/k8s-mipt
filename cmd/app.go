@@ -7,6 +7,7 @@ import (
 	"k8s-mipt/internal/config"
 	"k8s-mipt/internal/http"
 	"k8s-mipt/internal/logger"
+	_ "k8s-mipt/internal/metrics"
 	"time"
 
 	"github.com/rs/zerolog/log"

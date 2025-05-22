@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"k8s-mipt/internal/metrics"
 	"os"
 	"sync"
 
@@ -83,9 +84,17 @@ func (h *Handler) Status(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) WriteLog(w http.ResponseWriter, r *http.Request) {
-	var msg logMsg
+	var (
+		logBytes []byte
+		msg      logMsg
+		err      error
+	)
 
-	logBytes, err := io.ReadAll(r.Body)
+	defer func() {
+		metrics.LogRequestsTotal.WithLabelValues(errToStatus(err)).Inc()
+	}()
+
+	logBytes, err = io.ReadAll(r.Body)
 	if err != nil {
 		log.Error().Msgf("Ошибка чтения тела запроса: %s", err)
 
@@ -169,4 +178,12 @@ func (h *Handler) Close() error {
 
 func (m *logMsg) String() string {
 	return m.Msg
+}
+
+func errToStatus(err error) string {
+	if err != nil {
+		return "fail"
+	}
+
+	return "success"
 }

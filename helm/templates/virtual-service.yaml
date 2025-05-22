@@ -20,6 +20,16 @@ spec:
           number: 80
   - match:
     - uri:
+        exact: /metrics
+      method:
+        exact: GET
+    route:
+    - destination:
+        host: my-app-service
+        port:
+          number: 80
+  - match:
+    - uri:
         exact: /logs
       method:
         exact: GET

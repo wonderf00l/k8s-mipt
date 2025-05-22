@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rs/zerolog/log"
 )
 
@@ -90,11 +91,14 @@ func newRouter(handler *Handler) *chi.Mux {
 
 	router.Use(middleware.Logger)
 	router.Use(middleware.Recoverer)
+	router.Use(durationMiddleware)
 
 	router.Get("/", handler.SayHello)
 	router.Get("/status", handler.Status)
 	router.Get("/logs", handler.GetLogs)
 	router.Post("/log", handler.WriteLog)
+
+	router.Get("/metrics", promhttp.Handler().ServeHTTP)
 
 	return router
 }
